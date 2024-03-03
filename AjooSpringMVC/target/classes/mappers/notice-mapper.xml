@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="NoticeMapper">
+	<insert id="insertNotice">
+		INSERT INTO NOTICE_TBL
+		VALUES(SEQ_NOTICE_NO.NEXTVAL, #{noticeSubject},#{noticeContent},#{noticeWriter}, DEFAULT, DEFAULT, #{noticeFilename}, #{noticeFileRename}, #{noticeFilepath}, #{noticeFilelength})
+	</insert>
+	<update id="updateNotice">
+		UPDATE NOTICE_TBL
+		SET NOTICE_SUBJECT = #{noticeSubject }, NOTICE_CONTENT = #{noticeContent }
+		, NOTICE_FILENAME = #{noticeFilename }, NOTICE_FILERENAME = #{noticeFileRename}
+		, NOTICE_FILEPATH = #{noticeFilepath }, NOTICE_FILELENGTH = #{noticeFilelength}
+		, UPDATE_DATE = DEFAULT
+		WHERE NOTICE_NO = #{noticeNo }
+	</update>
+	<delete id="deleteNotice">
+		DELETE FROM NOTICE_TBL WHERE NOTICE_NO = #{noticeNo }
+	</delete>
+	
+	
+	<select id="selectNoticeByNo" resultMap="noticeResultMap">
+		SELECT * FROM NOTICE_TBL WHERE NOTICE_NO = #{noticeNo }
+	</select>
+
+	<select id="selectNoticeList" resultMap="noticeResultMap">
+		SELECT * FROM NOTICE_TBL ORDER BY NOTICE_NO DESC
+	</select>
+	
+	
+	
+	
+	
+<!-- 	0221 추가 -->
+	<select id="selectNoticesByKeyword" resultMap="noticeResultMap">
+	
+		SELECT * FROM NOTICE_TBL
+		<!-- 		if 문이 있듯이 당연 for문도 있음 마이바티스 동적쿼리-->
+		<if test="searchCondition=='all'" >
+		WHERE NOTICE_WRITER LIKE '%'||#{searchKeyword }||'%'
+		OR NOTICE_SUBJECT LIKE '%'||#{searchKeyword }||'%'
+		OR NOTICE_CONTENT LIKE '%'||#{searchKeyword }||'%'
+		</if>
+		
+		<if test="searchCondition=='writer'" >
+		WHERE NOTICE_WRITER LIKE '%'||#{searchKeyword }||'%'
+		</if>
+
+		<if test="searchCondition=='title'" >
+		WHERE NOTICE_SUBJECT LIKE '%'||#{searchKeyword }||'%'
+		</if>
+		<if test="searchCondition=='content'" >
+		WHERE NOTICE_CONTENT LIKE '%'||#{searchKeyword }||'%'
+		</if>
+
+		
+	</select>
+	
+	<select id="searchTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM NOTICE_TBL
+		
+		<if test="searchCondition=='all'" >
+		WHERE NOTICE_WRITER LIKE '%'||#{searchKeyword }||'%'
+		OR NOTICE_SUBJECT LIKE '%'||#{searchKeyword }||'%'
+		OR NOTICE_CONTENT LIKE '%'||#{searchKeyword }||'%'
+		</if>
+		
+		<if test="searchCondition=='writer'" >
+		WHERE NOTICE_WRITER LIKE '%'||#{searchKeyword }||'%'
+		</if>
+
+		<if test="searchCondition=='title'" >
+		WHERE NOTICE_SUBJECT LIKE '%'||#{searchKeyword }||'%'
+		</if>
+		<if test="searchCondition=='content'" >
+		WHERE NOTICE_CONTENT LIKE '%'||#{searchKeyword }||'%'
+		</if>
+		ORDER BY NOTICE_NO DESC
+	</select>
+<!-- 	//0221 추가 -->
+
+
+
+
+
+
+	
+	<select id="selectTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM NOTICE_TBL
+	</select>
+	<resultMap type="Notice" id="noticeResultMap">
+		<id 	property="noticeNo" 		column="NOTICE_NO"/>
+		<result property="noticeSubject" 	column="NOTICE_SUBJECT"/>
+		<result property="noticeContent" 	column="NOTICE_CONTENT"/>
+		<result property="noticeWriter" 	column="NOTICE_WRITER"/>
+		<result property="noticeDate" 		column="NOTICE_DATE"/>
+		<result property="updateDate" 		column="UPDATE_DATE"/>
+		<result property="noticeFilename" 	column="NOTICE_FILENAME"/>
+		<result property="noticeFileRename" column="NOTICE_FILERENAME"/>
+		<result property="noticeFilepath" 	column="NOTICE_FILEPATH"/>
+		<result property="noticeFilelength" column="NOTICE_FILELENGTH"/>
+	</resultMap>
+</mapper>

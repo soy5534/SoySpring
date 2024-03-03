@@ -1,0 +1,23 @@
+@charset "UTF-8";
+ul {
+	list-style-type : none;
+	padding-left : 0;
+}
+
+li {
+	margin : 10px;
+}
+
+ul label {
+	width : 80px;
+	float : left;
+	text-align : left;
+}
+
+table {
+	border : 1px solid black;
+	border-collapse : collapse;
+}
+th, td {
+	border : 1px solid black;
+}

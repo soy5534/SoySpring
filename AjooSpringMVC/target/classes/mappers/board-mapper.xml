@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--   //0221 추가 -->
+<mapper namespace="BoardMapper">
+	<resultMap type="Board" id="boardResultMap">
+		<id 	property="boardNo" 			column="BOARD_NO"/>
+		<result property="boardTitle" 		column="BOARD_TITLE"/>
+		<result property="boardContent" 	column="BOARD_CONTENT"/>
+		<result property="boardWriter" 		column="BOARD_WRITER"/>
+		<result property="boardFilename" 	column="BOARD_FILENAME"/>
+		<result property="boardFileRename"  column="BOARD_FILERENAME"/>
+		<result property="boardFilepath" 	column="BOARD_FILEPATH"/>
+		<result property="boardFilelength"  column="BOARD_FILELENGTH"/>
+		<result property="boardCount" 		column="BOARD_COUNT"/>
+		<result property="bCreateDate" 		column="B_CREATE_DATE"/>
+		<result property="bUpdateDate" 		column="B_UPDATE_DATE"/>
+		<result property="bStatus" 			column="B_STATUS"/>
+	</resultMap>
+	<select id="selectNoticeList" resultMap="boardResultMap">
+		SELECT * FROM BOARD_TBL ORDER BY BOARD_NO DESC
+	</select>
+	<select id="selectOneByNo" resultMap="boardResultMap">
+		SELECT * FROM BOARD_TBL
+		WHERE BOARD_NO = #{boardNo }
+		ORDER BY BOARD_NO DESC
+	</select>
+	<insert id="insertBoard">
+		INSERT INTO BOARD_TBL
+		VALUES(SEQ_BOARD_NO.NEXTVAL, #{boardTitle},#{boardContent},#{boardWriter}
+		, #{boardFilename},#{boardFileRename},#{boardFilepath},#{boardFilelength}, DEFAULT, DEFAULT, DEFAULT,DEFAULT)
+	</insert>
+</mapper>
