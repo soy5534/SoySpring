@@ -45,12 +45,12 @@
 				<td>
 					<input type="submit" value="완료">
 				</td>
-			</tr>			
+			</tr>
 		</table>
 	</form>
 	
 	<!-- 댓글 목록 -->
-	<table width="500" bprder="1">
+	<table width="550" border="1">
 		<c:forEach items="${rList }" var="reply">
 		<tr>
 			<td>${reply.replyWriter }</td>
@@ -60,9 +60,10 @@
 				<a href="#">수정</a>
 				<a href="#">삭제</a>
 			</td>
-		</tr>
+		</tr>	
 		</c:forEach>
 	</table>
+	
 	
 </body>
 </html>

@@ -25,7 +25,7 @@ private ReplyServicePrac rService;
 			if(memberId != null) {
 				replyVO.setReplyWriter(memberId);
 			}else {
-				model.addAttribute("msg", "로그인이 필요합니다");
+				model.addAttribute("msg", "로그인이 필요합니다.");
 				return "common/errorPage";
 			}
 			int result = rService.insertReply(replyVO);
@@ -35,7 +35,6 @@ private ReplyServicePrac rService;
 			return "common/errorPage";
 		}
 	}
-	
 
 	
 	
