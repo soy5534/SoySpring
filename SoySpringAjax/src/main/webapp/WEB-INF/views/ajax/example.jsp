@@ -33,6 +33,31 @@
 		<button id="jq-btn3">서버에서 보낸 값 확인(받는거임)</button>
 		<p id="confirm-area"></p>
 		
+		<!-- 24/03/05 추가 -->
+		<h3>4. 서버로 전송값 보내고 결과 문자열 받아서 처리</h3>
+		<h4>숫자 2개를 전송하고 더한 값 받기</h4>
+		첫번째 수 : <input type="number" id="num-1">
+		두번째 수 : <input type="number" id="num-2">
+		<button id="jq-btn4">전송 및 결과확인</button>
+		
+		<h3>5. 서버로 전송값 보내고 결과 JSON으로 받아서 처리</h3>
+		유저 번호 입력 : <input type="text" id="user-num">
+		<p id="p5"></p>
+		<button id="jq-btn5">실행 및 결과확인</button>
+		
+		<h3>6. 서버로 전송값을 보내고 JSONArray로 결과 받아서 처리</h3>
+		<p>유저 번호를 보내서 해당 유저를 가져오고, 없는 경우 전체리스트 가져오기</p>
+		유저 번호 입력 : <input type="text" id="find-num">
+		<p id="p6"></p>
+		<button id="jq-btn6">실행 및 결과확인</button>
+		
+		
+		
+		<br><br><br><br><br><br><br><br><br><br><br><br>
+		<br><br><br><br><br><br><br><br><br><br><br><br>
+		<br><br><br><br><br><br><br><br><br><br><br><br>
+		<br><br><br><br><br><br><br><br><br><br><br><br>
+		
 		<script>
 				
 			// 이걸 쓰는 게 복잡하니깐 jQuery를 이용하는 것.
@@ -85,6 +110,63 @@
 					}
 				})
 			});
+			
+			// 24.03.05 추가 
+			$("#jq-btn4").on("click", function(){ // 이 버튼이 클릭되면 아래 함수 실행
+				var num1 = $("#num-1").val();
+				var num2 = $("#num-2").val();
+				$.ajax({
+					// url data type 형식 외워주세요.
+					url : "/ajax/exthree.do",
+					data : { "num1" : num1, "num2" : num2 }, // : 기준 오른쪽값은 
+					type : "GET",
+					success : function(data){
+						alert(data);
+					},
+					error : function(){
+						alert("서버 전송 실패!");						
+					}
+				});				
+			});
+			
+			$("#jq-btn5").on("click", function(){
+				var userNum = $("#user-num").val();
+				$.ajax({
+					url : "/ajax/exfour.do",
+					data : {"userNum" : userNum},
+					type : "GET",
+					success : function(data){
+						console.log(data);
+						$("#p5").html("아이디: " + data.userId + ", 비밀번호 : " + data.userPw);
+					},
+					error : function(data){
+						alert("Ajax 통신 실패! 관리자에게 문의해주세요");
+					}
+				});
+			});
+			
+			$("#jq-btn6").on("click", function(){
+				var findNum = $("#find-num").val();
+				$.ajax({
+					url : "/ajax/exfive.do",
+					data : {"findNum" : findNum}, // 서버에 전송할 데이터를 지정. 여기서는 "findNum" 파라미터에 위에서 가져온 findNum 값을 전송
+					type : "GET",
+					success : function(data) {
+						var str = "";
+						for(var i = 0; i < data.length; i++){
+							str += "아이디 : " + data[i].userId + ", 비밀번호 : " + data[i].userPw + "<br>"; // += : 누적합
+						}
+						$("#p6").html(str);
+						// $("#p6").html("아이디 : " + data.userId + ", 비밀번호 : " + data.userPw);
+						// console.log(data.userId);
+						// console.log(data.userPw);
+					},						
+					error : function(data){
+						alert("Ajax 통신 실패! 관리자에게 문의해주세요");
+					}
+				});
+			});
+			
 		</script>
 	</body>
 </html>

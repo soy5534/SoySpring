@@ -13,7 +13,18 @@
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
+		
 	<dependencies>
+	
+	<dependency>
+	<!-- 03/05 추가(JSON) -->
+	<!-- 객체를 JSON String으로 변환 -->
+	<!-- 저장 + ALT+F5 하기 -->
+	<groupId>com.googlecode.json-simple</groupId>
+    <artifactId>json-simple</artifactId>
+    <version>1.1.1</version>	
+	</dependency>
+	
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
