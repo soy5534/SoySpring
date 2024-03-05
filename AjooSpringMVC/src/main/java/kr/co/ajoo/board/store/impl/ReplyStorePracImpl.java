@@ -11,8 +11,12 @@ public class ReplyStorePracImpl implements ReplyStorePrac{
 
 	@Override
 	public int insertReply(SqlSession session, ReplyVO replyVO) {
-		int result = session.insert("ReplyMapper.insertReply", replyVO);
-		return result;
+		// TODO Auto-generated method stub
+		return 0;
 	}
+
+	
+
+	
 
 }
