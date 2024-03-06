@@ -19,6 +19,20 @@
   		VALUES(SEQ_REPLY_NO.NEXTVAL, #{refBoardNo }, #{replyContent }, #{replyWriter}
   		, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
   	</insert>
+  	
+  	<update id="updateReply">
+  		UPDATE REPLY_TBL
+  		SET REPLY_CONTENT = #{replyContent}, R_UPDATE_DATE = DEFAULT
+  		WHERE REPLY_NO = #{replyNo}
+  	</update>
+  	
+  	<delete id="removeReply">
+  		DELETE FROM REPLY_TBL
+  		WHERE REPLY_NO = #{replyNo }
+  	</delete>
+  	
+  	
+  	
   	<select id="selectReplyList" resultMap="replyResultMap">
   		SELECT * FROM REPLY_TBL
   		WHERE REF_BOARD_NO = #{refBoardNo}

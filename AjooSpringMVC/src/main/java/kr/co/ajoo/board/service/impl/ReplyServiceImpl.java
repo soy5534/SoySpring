@@ -32,4 +32,16 @@ public class ReplyServiceImpl implements ReplyService {
 		return rList;
 	}
 
+	@Override
+	public int removeReply(Integer replyNo) {
+		int result = rStore.removeReply(session, replyNo);
+		return result;
+	}
+
+	@Override
+	public int updateReply(ReplyVO reply) {
+		int result = rStore.updateReply(session, reply);
+		return result;
+	}
+
 }

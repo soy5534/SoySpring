@@ -24,6 +24,8 @@
 			${memberName }님 환영합니다! <a href="/member/logout.kh">로그아웃</a><br>
 			<a href="/member/mypage.kh">마이페이지</a> <a href="#">게시판 이동</a>
 		</c:if>
+		<a href="/board/list.kh">board로 이동</a>
+		<a href="/notice/list.kh">공지사항으로 이동</a>
 	</body>
 </html>
 

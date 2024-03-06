@@ -17,10 +17,21 @@ public interface ReplyStore {
 	int insertReply(SqlSession session, ReplyVO replyVO);
 
 	/**
+	 * 댓글 삭제 Store
+	 * @param session
+	 * @param replyNo
+	 * @return
+	 */
+	int removeReply(SqlSession session, Integer replyNo);
+	
+	/**
 	 * 댓글 목록 조회 Store
 	 * @param session
 	 * @return List
 	 */
 	List<ReplyVO> selectReplyList(SqlSession session, Integer refBoardNo);
+
+	int updateReply(SqlSession session, ReplyVO reply);
+
 
 }

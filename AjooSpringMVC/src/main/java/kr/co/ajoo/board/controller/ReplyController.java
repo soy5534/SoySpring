@@ -1,13 +1,20 @@
 package kr.co.ajoo.board.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 
 import kr.co.ajoo.board.domain.ReplyVO;
 import kr.co.ajoo.board.service.ReplyService;
@@ -20,7 +27,7 @@ private ReplyService rService;
 
 	// prac //	
 
-	// 댓글등록 + ajax
+	// 댓글등록 + Ajax
 	@ResponseBody // 해당 메소드가 HTTP 응답의 본문(body)에 직접 데이터를 작성하여 클라이언트로 반환된다는 것을 나타냄.
 	@RequestMapping(value="/reply/add.kh", method=RequestMethod.POST) // 해당 메소드가 "/reply/add.kh" 경로로 POST 요청을 처리한다는 것을 나타냄.
 	public String insertReplyAjax(@ModelAttribute ReplyVO reply 	  // ReplyVO 객체를 받아서 DB에 댓글을 추가하고 결과를 문자열로 반환함.
@@ -42,7 +49,76 @@ private ReplyService rService;
 		} catch (Exception e) {
 			return e.getMessage(); // 예외가 발생하면 해당 예외 메세지를 반환함.
 		}		
+	}		
+	
+	// 댓글 삭제
+	@ResponseBody
+	@RequestMapping(value="/reply/remove.kh", method=RequestMethod.POST)
+	public String removeReply(Integer replyNo) {
+		try {
+			int result = rService.removeReply(replyNo);
+			if(result > 0) {
+				return "success";
+			}else {
+				return "fail";
+			}
+		} catch (Exception e) {
+			return e.getMessage();
+		}		
 	}
+	
+	// 댓글 수정	
+	@ResponseBody
+	@RequestMapping(value="/reply/update.kh", method=RequestMethod.POST)
+	public String updateReply(@ModelAttribute ReplyVO reply) {
+		// UPDATE REPLY_TBL SET REPLY_CONTENT = #{replyContent}
+		// , UPDATE_DATE = DEFAULT
+		// WHERE REPLY_NO = #{replyNo}
+		try {
+			int result = rService.updateReply(reply);
+			if(result > 0) {
+				return "success";
+			}else {
+				return "fail";
+			}
+		} catch (Exception e) {
+			return e.getMessage();
+		}
+		
+	}
+	
+	// 댓글목록 + JSON
+	@ResponseBody
+	@RequestMapping(value="/reply/list.kh", produces="application/json;charset=utf-8", method=RequestMethod.GET)
+	public String showReplyList(@RequestParam("refBoardNo") Integer refBoardNo) {
+		// DB에서 댓글목록 가져오기
+		List<ReplyVO> rList = rService.selectReplyList(refBoardNo);
+		// List -> JSON Array로 만들어서 리턴해줘야 함.
+//		JSONObject json = new JSONObject();
+//		JSONArray jsonArr = new JSONArray();
+////		ReplyVO reply = new ReplyVO();
+//		
+//		for(ReplyVO reply : rList) {
+//		json.put("replyNo", "reply.getReplyNo()");
+//		json.put("refBoardNo", "reply.getBoardNo()");
+//		json.put("replyContent", "reply.getReplyContent()");
+//		json.put("replyWriter", "reply.getReplyWriter()");
+//		json.put("rCreateDate", "reply.getrCreateDate()");
+//		json.put("rUpdateDate", "reply.getrUpdateDate()");
+//		json.put("updateYn", "reply.getUpdateYn()");
+//		json.put("rStatus", "reply.getStatus()");
+//		jsonArr.add(json);
+//		}
+		
+		// List -> JSON Array로 간단히 바꿔주는 라이브러리 2번째
+		// GSON - Google JSON
+		Gson gson = new Gson();
+		return gson.toJson(rList);
+		
+//		return jsonArr.toString();
+	}
+	
+	
 
 
 //	@RequestMapping(value="/reply/add.kh", method=RequestMethod.POST)
