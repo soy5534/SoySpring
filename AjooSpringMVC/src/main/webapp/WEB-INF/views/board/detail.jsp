@@ -141,6 +141,7 @@
 			var refBoardNo = $("#refBoardNo").val(); // refBoardNo id를 가진 요소의 값을 가져와 변수 refBoardNo에 저장.(게시글 번호)
 			var replyContent = $("#replyContent").val(); // replyContent id -> 변수 replyContent에 저장. (사용자가 입력한 댓글 내용) 
 			$.ajax({ // jQuery의 Ajax 함수를 사용하여 서버에 비동기적으로 요청을 보냄.
+				// udt + success, error
 				url : "/reply/add.kh", // 요청을 보낼 url을 지정. reply/add.kh -> 댓글을 추가하는 기능을 처리하는 서버의 URL.
 				data : {"refBoardNo" : refBoardNo // 서버에 전달할 데이터를 지정. refBoardNo와 replyContent라는 이름으로 게시글 번호와 댓글 내용을 전달함.
 						, "replyContent" : replyContent},
