@@ -66,20 +66,8 @@
 	<!-- 따라서 위의 코드는 에 있는 요소들을 순회하면서 각 요소를 라는 이름으로 참조하여 처리함. -->
 	
 	<table width="550" border="1" id="replyTable">
-		<tbody>
-			
+		<tbody>			
 		</tbody>
-<%-- 		<c:forEach items="${rList }" var="reply">  --%>
-<!-- 		<tr> -->
-<%-- 			<td>${reply.replyWriter }</td> --%>
-<%-- 			<td>${reply.replyContent }</td> --%>
-<%-- 			<td>${reply.rCreateDate }</td> --%>
-<!-- 			<td> -->
-<!-- 				<a href="#">수정</a> -->
-<!-- 				<a href="#">삭제</a> -->
-<!-- 			</td> -->
-<!-- 		</tr> -->
-<%-- 		</c:forEach> --%>
 	</table>
 
 	
@@ -109,17 +97,13 @@
 							var rCreateDateVal = result[i].rCreateDate;
 							var replyNoVal = result[i].replyNo;							
 							tr = $("<tr>") // <tr><tr>
-							//replyWriter = $("<td>").text(result[i].replyWriter); // <td><td>
 							replyWriter = $("<td>").text(replyWriterVal); // <td><td>
 							replyContent = $("<td>").text(replyContentVal);
 							rCreateDate = $("<td width='100'>").text(rCreateDateVal);
 							btnArea = $("<td width='90'>")
 								// ** JS에서의 this는, 이벤트가 발생한 태그를 알려주는 키워드 ! (요소 탐색, 요소 조작 가능)
+								// *문자열이기 때문에 replyContent 앞뒤에 '' + 이미 사용중이기 때문에 escape문자(\) 사용해주기
 								.append("<a href='javascript:void(0)' onclick='modifyViewReply(this, " + replyNoVal + ", \"" + replyContentVal + "\");'>수정</a>")
-								//.append("<a href='javascript:void(0)' onclick='modifyViewReply(this, "replyNoVal+", \"" + replyContentVal + "\");'>수정</a>") // *문자열이기 때문에 replyContent 앞뒤에 '' + 이미 사용중이기 때문에 escape문자(\) 사용해주기
-	//							.append("<a href='javascript:void(0)' onclick='modifyViewReply(this, \"" + replyContentVal + "\");'>수정</a>")
-	
-	
 								.append("<a href='javascript:void(0)' onclick='removeReply(" + replyNoVal + ");'>삭제</a>")								
 							tr.append(replyWriter);
 							tr.append(replyContent);
@@ -158,23 +142,6 @@
 			});
 		});
 		
-		// 댓글 삭제
-		function removeReply(replyNo){
-// 			var replyNo = 2; // 변수선언 누락주의
-			$.ajax({
-				url : "/reply/remove.kh",
-				data : { "replyNo" : replyNo },
-				type : "POST",
-				success : function(result){
-					alert("댓글이 삭제되었습니다.");
-					getReplyList(); // 댓글 삭제 후 목록 다시 불러오기
-				},
-				error : function(){
-					alert("ajax 통신 실패, 관리자에게 문의해주세요")
-				}
-			});		
-		}		
-		
 		// 댓글 수정
 		function modifyViewReply(obj, rNo, rContent){		
 			var tr = $("<tr>");
@@ -182,8 +149,6 @@
 			tr.append("<td><button type='button' onclick='modifyReply("+rNo+", this);'>수정완료</button></td>");
 			$(obj).parent().parent().after(tr);		// $(obj) = 수정 , $(obj).parent() , $(obj).parent().parent() = tr , after = 여기에 댓글창 설치
 													// 수정창은 버튼을 눌렀던 행 바로 밑에 붙어야 함.
-//			$("#replyTable tbody").append(tr);
-//			$("<td>").append("<input type='text'>");
 		}
 		
 		function modifyReply(replyNo, obj){
@@ -203,10 +168,21 @@
 			});
 		}
 		
-		
-		
-	
-		
+		// 댓글 삭제
+		function removeReply(replyNo){
+			$.ajax({
+				url : "/reply/remove.kh",
+				data : { "replyNo" : replyNo },
+				type : "POST",
+				success : function(result){
+					alert("댓글이 삭제되었습니다.");
+					getReplyList(); // 댓글 삭제 후 목록 다시 불러오기
+				},
+				error : function(){
+					alert("ajax 통신 실패, 관리자에게 문의해주세요")
+				}
+			});		
+		}			
 	</script>
 </body>
 </html>

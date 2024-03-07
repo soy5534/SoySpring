@@ -12,15 +12,23 @@ public interface ReplyStore {
 	 * 댓글 등록 Store
 	 * @param session
 	 * @param replyVO
-	 * @return
+	 * @return int
 	 */
 	int insertReply(SqlSession session, ReplyVO replyVO);
 
 	/**
+	 * 댓글 수정 Store
+	 * @param session
+	 * @param reply
+	 * @return int
+	 */	
+	int updateReply(SqlSession session, ReplyVO reply);
+	
+	/**
 	 * 댓글 삭제 Store
 	 * @param session
 	 * @param replyNo
-	 * @return
+	 * @return int
 	 */
 	int removeReply(SqlSession session, Integer replyNo);
 	
@@ -31,7 +39,6 @@ public interface ReplyStore {
 	 */
 	List<ReplyVO> selectReplyList(SqlSession session, Integer refBoardNo);
 
-	int updateReply(SqlSession session, ReplyVO reply);
 
 
 }

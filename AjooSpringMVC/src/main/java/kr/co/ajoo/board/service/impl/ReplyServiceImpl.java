@@ -25,6 +25,19 @@ public class ReplyServiceImpl implements ReplyService {
 		return result;
 	}
 
+	@Override
+	public int updateReply(ReplyVO reply) {
+		int result = rStore.updateReply(session, reply);
+		return result;
+	}
+	
+	@Override
+	public int removeReply(Integer replyNo) {
+		int result = rStore.removeReply(session, replyNo);
+		return result;
+	}
+	
+	
 	// 특정 게시물에 대한 댓글 목록을 조회하는 메소드. ReplyStore의 selectReplyList 메소드를 호출하여 해당 게시물에 대한 댓글 목록을 가져옴.
 	@Override
 	public List<ReplyVO> selectReplyList(Integer refBoardNo) {
@@ -32,16 +45,5 @@ public class ReplyServiceImpl implements ReplyService {
 		return rList;
 	}
 
-	@Override
-	public int removeReply(Integer replyNo) {
-		int result = rStore.removeReply(session, replyNo);
-		return result;
-	}
-
-	@Override
-	public int updateReply(ReplyVO reply) {
-		int result = rStore.updateReply(session, reply);
-		return result;
-	}
 
 }

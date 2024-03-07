@@ -23,6 +23,12 @@ public class ReplyStoreImpl implements ReplyStore{
 	}
 
 	@Override
+	public int updateReply(SqlSession session, ReplyVO reply) {
+		int result = session.update("ReplyMapper.updateReply", reply);
+		return result;
+	}
+	
+	@Override
 	public int removeReply(SqlSession session, Integer replyNo) {
 		int result = session.insert("ReplyMapper.removeReply", replyNo);		
 		return result;
@@ -37,11 +43,6 @@ public class ReplyStoreImpl implements ReplyStore{
 		// MyBatis 프레임워크를 사용하여 데이터베이스에서 특정 게시물에 대한 댓글 목록을 조회하는 메서드
 	}
 
-	@Override
-	public int updateReply(SqlSession session, ReplyVO reply) {
-		int result = session.update("ReplyMapper.updateReply", reply);
-		return result;
-	}
 
 
 }

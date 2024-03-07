@@ -12,11 +12,18 @@ public interface ReplyService {
 	 * @return int
 	 */
 	int insertReply(ReplyVO replyVO);
+	
+	/**
+	 * 댓글 수정 Service
+	 * @param reply
+	 * @return int
+	 */
+	int updateReply(ReplyVO reply);
 
 	/**
 	 * 댓글 삭제 Service
 	 * @param replyNo
-	 * @return
+	 * @return int
 	 */
 	int removeReply(Integer replyNo);
 	
@@ -27,7 +34,5 @@ public interface ReplyService {
 	 * @return List
 	 */ 
 	List<ReplyVO> selectReplyList(Integer refBoardNo);
-
-	int updateReply(ReplyVO reply);
 
 }

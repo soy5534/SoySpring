@@ -39,7 +39,7 @@ private ReplyService rService;
 				reply.setReplyWriter(replyWriter); // ReplyVO 객체(reply)의 작성자를 세션에서 가져온 사용자 아이디(replyWriter)로 설정함.
 				result = rService.insertReply(reply); // 댓글 서비스(rService)를 사용하여 댓글을 DB에 추가하고 그 결과를 result 변수에 저장함.
 			}else {
-				return "Login needed"; // Login neened 문자열 반환
+				return "로그인이 필요합니다."; // Login neened 문자열 반환
 			}
 			if(result > 0) { // 댓글 추가 성공여부 확인
 				return "success"; // 댓글 추가 성공
@@ -50,6 +50,22 @@ private ReplyService rService;
 			return e.getMessage(); // 예외가 발생하면 해당 예외 메세지를 반환함.
 		}		
 	}		
+	
+	// 댓글 수정	
+	@ResponseBody
+	@RequestMapping(value="/reply/update.kh", method=RequestMethod.POST)
+	public String updateReply(@ModelAttribute ReplyVO reply) {
+		try {
+			int result = rService.updateReply(reply);
+			if(result > 0) {
+				return "success";
+			}else {
+				return "fail";
+			}
+		} catch (Exception e) {
+			return e.getMessage();
+		}		
+	}
 	
 	// 댓글 삭제
 	@ResponseBody
@@ -67,55 +83,16 @@ private ReplyService rService;
 		}		
 	}
 	
-	// 댓글 수정	
-	@ResponseBody
-	@RequestMapping(value="/reply/update.kh", method=RequestMethod.POST)
-	public String updateReply(@ModelAttribute ReplyVO reply) {
-		// UPDATE REPLY_TBL SET REPLY_CONTENT = #{replyContent}
-		// , UPDATE_DATE = DEFAULT
-		// WHERE REPLY_NO = #{replyNo}
-		try {
-			int result = rService.updateReply(reply);
-			if(result > 0) {
-				return "success";
-			}else {
-				return "fail";
-			}
-		} catch (Exception e) {
-			return e.getMessage();
-		}
-		
-	}
-	
-	// 댓글목록 + JSON
+	// 댓글 목록 + JSON
 	@ResponseBody
 	@RequestMapping(value="/reply/list.kh", produces="application/json;charset=utf-8", method=RequestMethod.GET)
 	public String showReplyList(@RequestParam("refBoardNo") Integer refBoardNo) {
 		// DB에서 댓글목록 가져오기
-		List<ReplyVO> rList = rService.selectReplyList(refBoardNo);
-		// List -> JSON Array로 만들어서 리턴해줘야 함.
-//		JSONObject json = new JSONObject();
-//		JSONArray jsonArr = new JSONArray();
-////		ReplyVO reply = new ReplyVO();
-//		
-//		for(ReplyVO reply : rList) {
-//		json.put("replyNo", "reply.getReplyNo()");
-//		json.put("refBoardNo", "reply.getBoardNo()");
-//		json.put("replyContent", "reply.getReplyContent()");
-//		json.put("replyWriter", "reply.getReplyWriter()");
-//		json.put("rCreateDate", "reply.getrCreateDate()");
-//		json.put("rUpdateDate", "reply.getrUpdateDate()");
-//		json.put("updateYn", "reply.getUpdateYn()");
-//		json.put("rStatus", "reply.getStatus()");
-//		jsonArr.add(json);
-//		}
-		
+		List<ReplyVO> rList = rService.selectReplyList(refBoardNo);		
 		// List -> JSON Array로 간단히 바꿔주는 라이브러리 2번째
 		// GSON - Google JSON
 		Gson gson = new Gson();
 		return gson.toJson(rList);
-		
-//		return jsonArr.toString();
 	}
 	
 	
